@@ -1,0 +1,9 @@
+numpy>=1.24
+opencv-python>=4.8
+onnxruntime>=1.18
+rtmlib>=0.0.6
+
+
+
+
+

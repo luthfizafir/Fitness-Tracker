@@ -1,0 +1,58 @@
+package com.example.fitnesstracker
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.example.fitnesstracker.data.firebase.FirebaseAuthService
+import com.example.fitnesstracker.data.firebase.FirestoreRepository
+import com.example.fitnesstracker.navigation.NavGraph
+import com.example.fitnesstracker.navigation.NavRoutes
+import com.example.fitnesstracker.ui.theme.FitnessTrackerTheme
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        
+        // Initialize Firebase services
+        val authService = FirebaseAuthService()
+        val firestoreRepository = FirestoreRepository()
+        
+        // Determine start destination based on login status
+        val startDestination = if (authService.isUserLoggedIn) {
+            NavRoutes.Home.route
+        } else {
+            NavRoutes.Welcome.route
+        }
+        
+        setContent {
+            FitnessTrackerTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+                    NavGraph(
+                        navController = navController,
+                        startDestination = startDestination,
+                        authService = authService,
+                        firestoreRepository = firestoreRepository,
+                        dataStore = dataStore
+                    )
+                }
+            }
+        }
+    }
+}
