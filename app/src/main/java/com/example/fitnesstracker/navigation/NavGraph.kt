@@ -70,7 +70,10 @@ fun NavGraph(
             SessionSummaryScreen(navController = navController)
         }
         composable(NavRoutes.History.route) {
-            HistoryScreen(navController = navController)
+            HistoryScreen(
+                navController = navController,
+                viewModelFactory = viewModelFactory
+            )
         }
         composable("${NavRoutes.SessionDetails.route}/{sessionId}") { backStackEntry ->
             val sessionId = backStackEntry.arguments?.getString("sessionId")?.toLongOrNull()
@@ -89,7 +92,11 @@ fun NavGraph(
             val authViewModel: FirebaseAuthViewModel = viewModel(
                 factory = viewModelFactory
             )
-            ProfileScreen(navController = navController, authViewModel = authViewModel)
+            ProfileScreen(
+                navController = navController,
+                authViewModel = authViewModel,
+                viewModelFactory = viewModelFactory
+            )
         }
         composable(NavRoutes.AppPreferences.route) {
             AppPreferencesScreen(navController = navController)

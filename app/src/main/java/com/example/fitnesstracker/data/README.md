@@ -122,3 +122,4 @@ The database automatically includes these default exercises:
 - Foreign keys are optional to maintain backward compatibility with existing data.
 
 
+

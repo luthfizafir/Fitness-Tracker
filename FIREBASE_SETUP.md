@@ -178,3 +178,4 @@ If you encounter issues:
 2. Check [Firebase Authentication Guide](https://firebase.google.com/docs/auth/android/start)
 3. Check [Firestore Get Started Guide](https://firebase.google.com/docs/firestore/quickstart)
 
+

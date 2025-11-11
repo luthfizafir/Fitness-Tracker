@@ -13,11 +13,18 @@ class FirebaseViewModelFactory(
     private val dataStore: DataStore<Preferences>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(FirebaseAuthViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return FirebaseAuthViewModel(authService, firestoreRepository, dataStore) as T
+        return when {
+            modelClass.isAssignableFrom(FirebaseAuthViewModel::class.java) -> {
+                @Suppress("UNCHECKED_CAST")
+                FirebaseAuthViewModel(authService, firestoreRepository, dataStore) as T
+            }
+            modelClass.isAssignableFrom(FirebaseWorkoutViewModel::class.java) -> {
+                @Suppress("UNCHECKED_CAST")
+                FirebaseWorkoutViewModel(authService, firestoreRepository) as T
+            }
+            else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
 
